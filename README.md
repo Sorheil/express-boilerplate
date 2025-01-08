@@ -1,85 +1,85 @@
 # Express Boilerplate
 
-Un boilerplate solide et modulaire pour démarrer rapidement un projet d'API avec **Express**, **MongoDB**, **JWT**, et d'autres outils essentiels pour le développement d'applications backend sécurisées.
+A solid and modular boilerplate to quickly start an API project with **Express**, **MongoDB**, **JWT**, and other essential tools for developing secure backend applications.
 
-## Table des matières
+## Table of Contents
 
 1. [Introduction](#introduction)
 2. [Installation](#installation)
 3. [Configuration](#configuration)
 4. [Routes](#routes)
-5. [Démarrer le serveur](#démarrer-le-serveur)
-6. [Technologies utilisées](#technologies-utilisées)
+5. [Start the Server](#start-the-server)
+6. [Technologies Used](#technologies-used)
 7. [Tests](#tests)
-8. [Contribuer](#contribuer)
-9. [Licence](#licence)
+8. [Contribute](#contribute)
+9. [License](#license)
 
 ## Introduction
 
-Ce projet est un modèle de base pour créer des APIs REST sécurisées avec **Express**. Il fournit une architecture bien structurée qui inclut :
+This project is a base template for creating secure REST APIs with **Express**. It provides a well-structured architecture that includes:
 
-- Authentification et autorisation via **JWT**.
-- Connexion à **MongoDB** avec **Mongoose**.
-- Gestion des erreurs et middleware personnalisés.
-- Sécurisation des routes avec des contrôles d'accès.
-- Structure claire pour les routes, contrôleurs, modèles et middleware.
+- Authentication and authorization via **JWT**.
+- Connection to **MongoDB** with **Mongoose**.
+- Error handling and custom middleware.
+- Securing routes with access control.
+- A clear structure for routes, controllers, models, and middleware.
 
-Il est conçu pour être facilement extensible et utilisé pour de nouveaux projets, tout en offrant des bases solides pour un développement rapide.
+It is designed to be easily extensible and used for new projects, while providing a solid foundation for rapid development.
 
 ## Installation
 
-### Prérequis
+### Prerequisites
 
-Avant de commencer, assurez-vous d'avoir installé les outils suivants sur votre machine :
+Before you begin, make sure you have installed the following tools on your machine:
 
-- **Node.js** (version 14 ou supérieure)
-- **MongoDB** (ou utilisez un service de base de données MongoDB dans le cloud comme Atlas)
+- **Node.js** (version 14 or higher)
+- **MongoDB** (or use a cloud MongoDB service like Atlas)
 
-### Étapes d'installation
+### Installation Steps
 
-1. **Clonez le dépôt** :
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/votre-utilisateur/express-boilerplate.git
+   git clone https://github.com/your-username/express-boilerplate.git
    cd express-boilerplate
    ```
 
-2. **Installez les dépendances** :
-   Utilisez `npm` ou `yarn` pour installer toutes les dépendances du projet.
+2. **Install dependencies**:
+   Use `npm` or `yarn` to install all the project dependencies.
    ```bash
    npm install
    ```
 
-3. **Créez votre fichier `.env`** :
-   À la racine du projet, créez un fichier `.env` et ajoutez les variables suivantes :
+3. **Create your `.env` file**:
+   In the `config` folder of the project, create a `.env` file and add the following variables:
    ```bash
    PORT=5000
    MONGO_URI=mongodb://localhost:27017/mydatabase
-   JWT_SECRET=votre_cle_secrete
+   JWT_SECRET=your_secret_key
    ```
 
-4. **Démarrez le serveur** :
-   Une fois l'installation terminée, vous pouvez démarrer le serveur avec la commande suivante :
+4. **Start the server**:
+   Once the installation is complete, you can start the server with the following command:
    ```bash
    npm start
    ```
 
-   Le serveur sera disponible à `http://localhost:5000`.
+   The server will be available at `http://localhost:5000`.
 
 ## Configuration
 
-Ce projet utilise **MongoDB** pour la base de données et **JWT** pour l'authentification. Vous pouvez personnaliser le fichier `.env` pour ajuster la configuration du projet :
+This project uses **MongoDBAtlas** for the database and **JWT** for authentication. You can customize the `.env` file to adjust the project configuration:
 
-- **PORT** : Le port sur lequel l'application écoute. Par défaut, c'est `5000`.
-- **MONGO_URI** : L'URI de connexion à votre base de données MongoDB (exemple : `mongodb://localhost:27017/mydatabase`).
-- **JWT_SECRET** : La clé secrète utilisée pour signer les tokens JWT. Vous devez la garder secrète.
+- **PORT**: The port the application listens on. By default, it is `5000`.
+- **MONGO_URI**: The connection URI to your MongoDB database (example: `mongodb+srv://<db_username>:<db_password>@cluster0.5nram.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`).
+- **JWT_SECRET**: The secret key used to sign the JWT tokens. You must keep it secret.
 
-## Routes
+## Base Routes for Authentication
 
-### 1. `POST /api/users`
+### 1. `POST /api/auth/register`
 
-Crée un nouvel utilisateur. Les informations doivent être envoyées dans le corps de la requête.
+Creates a new user. Information must be sent in the request body.
 
-#### Exemple de requête
+#### Example request
 ```json
 {
   "name": "John Doe",
@@ -88,7 +88,7 @@ Crée un nouvel utilisateur. Les informations doivent être envoyées dans le co
 }
 ```
 
-#### Réponse
+#### Response
 ```json
 {
   "_id": "60c72b2f9b1d8c001c8d8c9b",
@@ -101,9 +101,9 @@ Crée un nouvel utilisateur. Les informations doivent être envoyées dans le co
 
 ### 2. `POST /api/auth/login`
 
-Permet à un utilisateur de se connecter en utilisant son email et mot de passe. Retourne un token JWT en cas de succès.
+Allows a user to log in using their email and password. Returns a JWT token on success.
 
-#### Exemple de requête
+#### Example request
 ```json
 {
   "email": "johndoe@example.com",
@@ -111,7 +111,7 @@ Permet à un utilisateur de se connecter en utilisant son email et mot de passe.
 }
 ```
 
-#### Réponse
+#### Response
 ```json
 {
   "token": "jwt_token_here"
@@ -120,65 +120,61 @@ Permet à un utilisateur de se connecter en utilisant son email et mot de passe.
 
 ### 3. `GET /api/protected`
 
-Route protégée qui nécessite un token JWT valide pour accéder aux données.
+A protected route that requires a valid JWT token to access the data.
 
-#### Exemple de requête
-En-tête de la requête :
+#### Example request
+Request header:
 ```
 Authorization: Bearer jwt_token_here
 ```
 
-Réponse :
+Response:
 ```json
 {
-  "message": "Accès autorisé à la route protégée"
+  "message": "Access granted to the protected route"
 }
 ```
 
-## Démarrer le serveur
+## Start the Server
 
-Une fois le fichier `.env` configuré et les dépendances installées, vous pouvez démarrer le serveur en utilisant :
+Once the `.env` file is configured and dependencies are installed, you can start the server using:
 
 ```bash
 npm start
 ```
 
-Cela démarrera le serveur sur le port spécifié dans le fichier `.env` (par défaut `5000`), et vous pourrez accéder à l'API à l'adresse suivante : `http://localhost:5000`.
+This will start the server using `Nodemon` on the port specified in the `.env` file (default `5000`), and you can access the API at: `http://localhost:5000`.
 
-## Technologies utilisées
+## Technologies Used
 
-- **Express** : Framework minimaliste pour Node.js.
-- **MongoDB** : Base de données NoSQL utilisée pour le stockage des données.
-- **Mongoose** : ODM (Object Data Modeling) pour MongoDB.
-- **JWT (JSON Web Tokens)** : Authentification par token sécurisé.
-- **Bcryptjs** : Utilisé pour le hachage des mots de passe.
-- **Dotenv** : Permet de charger les variables d'environnement.
-- **Cors** : Middleware pour la gestion des permissions de cross-origin (CORS).
+- **Express**: Minimalist framework for Node.js.
+- **MongoDB**: NoSQL database used for data storage.
+- **Mongoose**: ODM (Object Data Modeling) for MongoDB.
+- **JWT (JSON Web Tokens)**: Authentication using secure tokens.
+- **Bcryptjs**: Used for hashing passwords.
+- **Dotenv**: Loads environment variables.
+- **Cors**: Middleware for handling cross-origin permissions (CORS).
+- **Morgan**: Middleware for logging HTTP requests, useful for debugging and server monitoring.
+- **Helmet**: Middleware that helps secure applications by setting various HTTP headers to protect against common web vulnerabilities.
 
 ## Tests
 
-Vous pouvez utiliser **Jest** pour effectuer des tests unitaires et d'intégration dans ce projet. Pour lancer les tests, exécutez la commande suivante :
+You can use **Jest** to perform unit and integration tests in this project. To run the tests, execute the following command:
 
-```bash
-npm test
-```
+## Contribute
 
-Les tests sont configurés pour tester les routes principales et la logique d'authentification.
+Contributions are welcome! Here's how you can contribute to this project:
 
-## Contribuer
+1. Fork the project.
+2. Create a branch for your feature (`git checkout -b feature/my-feature`).
+3. Commit your changes (`git commit -am 'Add a new feature'`).
+4. Push your branch (`git push origin feature/my-feature`).
+5. Open a Pull Request for us to review your changes.
 
-Les contributions sont les bienvenues ! Voici comment vous pouvez contribuer à ce projet :
+### Issues and Suggestions
 
-1. Forkez le projet.
-2. Créez une branche pour votre fonctionnalité (`git checkout -b feature/ma-fonctionnalité`).
-3. Commitez vos changements (`git commit -am 'Ajout d\'une nouvelle fonctionnalité'`).
-4. Poussez votre branche (`git push origin feature/ma-fonctionnalité`).
-5. Ouvrez une Pull Request pour que nous puissions examiner vos modifications.
+If you found a bug or have a suggestion, open an issue on GitHub.
 
-### Problèmes et suggestions
+## License
 
-Si vous avez trouvé un bug ou si vous avez une suggestion, ouvrez un problème (issue) dans GitHub.
-
-## Licence
-
-Ce projet est sous la licence **MIT**. Vous êtes libre de l'utiliser, de le modifier et de le distribuer, tant que vous incluez la licence dans vos versions dérivées.
+This project is under the **MIT** license. You are free to use, modify, and distribute it, as long as you include the license in your derived versions.

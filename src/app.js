@@ -4,9 +4,17 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const connectDB = require('../config/db');
+// Routes
+const userRoutes = require('./routes/authRoutes');
+//middleware
+const authMiddleware = require('./middleware/authMiddleware');
 
 // Load environment variables from .env file
 dotenv.config();
+
+// MongoDB connection
+connectDB();
 
 // Initialize Express app
 const app = express();
@@ -23,6 +31,15 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to your Express boilerplate!' });
 });
+
+// Routes
+app.use('/api/auth', userRoutes);
+
+// Route protégée
+app.get('/api/protected', authMiddleware, (req, res) => {
+    res.json({ message: 'Accès autorisé à la route protégée' });
+});
+
 
 // Handle 404 errors
 app.use((req, res, next) => {
